@@ -2,9 +2,9 @@
 using namespace std;
 
 int main() {
-	long n;
-	cin >> n;
-	cout << n << "=";
+ long n;
+ cin >> n;
+ cout << n << "=";
   //输入1特别判断
 	if (n == 1) {
 		printf("1");
