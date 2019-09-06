@@ -1,0 +1,77 @@
+//一开始最后测试点不过。因为最后排序时，cmp()中先对tms排序，此时tms应该已经取整而不是double。
+#include<iostream>
+#include<map>
+#include<vector>
+#include<algorithm> 
+using namespace std;
+
+struct node{
+	string school;
+	double tws=0;
+	int num=0;
+};
+
+bool cmp(node node1,node node2){
+	if(node1.tws!=node2.tws)
+		return node1.tws>node2.tws;
+	else if(node1.num!=node2.num)
+		return node1.num<node2.num;
+	else return node1.school<node2.school;
+}
+
+int main(){
+	int n;
+	string id,school;
+	int score;
+	map<string,node> m;
+	vector<node> v;
+	
+	cin>>n;
+	while(n--){
+		cin>>id>>score>>school;
+		//school转小写
+		for(int i=0;i<school.size();i++){
+			if(school[i]<97)
+				school[i]+=32;
+		} 
+		switch(id[0]){
+			case 'A':
+				m[school].tws=m[school].tws+score;
+				break;
+			case 'B':
+				m[school].tws=m[school].tws+score/1.5;
+				break;
+			case 'T':
+				m[school].tws=m[school].tws+1.5*score;
+				break;
+		}
+		m[school].num++;
+
+	}
+	
+	for(map<string,node>::iterator it=m.begin();it!=m.end();it++){
+		it->second.school=it->first;
+		it->second.tws = (int)it->second.tws;
+		v.push_back(it->second);
+	}
+	
+	sort(v.begin(),v.end(),cmp);
+	printf("%d\n",v.size());
+	
+	int index=1;
+	int before=v[0].tws;
+	for(int i=0;i<v.size();i++){
+		if(v[i].tws==before){
+			printf("%d ",index);
+		}
+		else{
+			printf("%d ",i+1);
+			index=i+1;
+			before=v[i].tws;
+		}
+		cout<<v[i].school<<" "<<v[i].tws<<" "<<v[i].num<<endl;		
+	}
+	
+	
+	return 0;
+}
